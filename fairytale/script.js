@@ -1,10 +1,14 @@
-
 let planName='Անհատական գիրք + NFC';
 let planPrice=17000;
 let currentMode='custom';
 let heroes=0;
 let pages=0;
 let uploadedCount=0;
+
+const SUPABASE_URL = 'https://xxbvitnrnloscrrmlaui.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4_qeOASRgzI1mEpEioICow_hHSB5HPi';
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 function format(n){return n.toLocaleString('hy-AM')+' դր․'}
 
@@ -13,44 +17,29 @@ function updateTotal(){
   const pagePrice = pages * 2500;
   const total = planPrice + heroPrice + pagePrice;
 
-  const planNameEl = document.getElementById('planName');
-  const planPriceEl = document.getElementById('planPrice');
-  const heroPriceEl = document.getElementById('heroPrice');
-  const pagePriceEl = document.getElementById('pagePrice');
-  const totalPriceEl = document.getElementById('totalPrice');
-
-  if(planNameEl) planNameEl.textContent = planName;
-  if(planPriceEl) planPriceEl.textContent = format(planPrice);
-  if(heroPriceEl) heroPriceEl.textContent = format(heroPrice);
-  if(pagePriceEl) pagePriceEl.textContent = format(pagePrice);
-  if(totalPriceEl) totalPriceEl.textContent = format(total);
+  document.getElementById('planName').textContent = planName;
+  document.getElementById('planPrice').textContent = format(planPrice);
+  document.getElementById('heroPrice').textContent = format(heroPrice);
+  document.getElementById('pagePrice').textContent = format(pagePrice);
+  document.getElementById('totalPrice').textContent = format(total);
 }
 
 function setMode(mode){
   currentMode = mode;
 
-  const templates = document.getElementById('templates');
-  const customOnly = document.getElementById('customOnlyFields');
-  const readyInfo = document.getElementById('readyOnlyInfo');
-  const readyBlock = document.getElementById('readyBlock');
-  const selectedLine = document.getElementById('selectedTemplateLine');
-  const customQuestions = document.getElementById('customQuestions');
-
-  if(templates) templates.classList.toggle('hidden', mode !== 'ready');
-  if(customOnly) customOnly.classList.toggle('hidden', mode === 'ready');
-  if(readyInfo) readyInfo.classList.toggle('hidden', mode !== 'ready');
-  if(readyBlock) readyBlock.classList.toggle('hidden', mode !== 'ready');
-  if(selectedLine) selectedLine.classList.toggle('hidden', mode !== 'ready');
-  if(customQuestions) customQuestions.classList.toggle('hidden', mode !== 'custom');
+  document.getElementById('templates')?.classList.toggle('hidden', mode !== 'ready');
+  document.getElementById('customOnlyFields')?.classList.toggle('hidden', mode === 'ready');
+  document.getElementById('readyOnlyInfo')?.classList.toggle('hidden', mode !== 'ready');
+  document.getElementById('readyBlock')?.classList.toggle('hidden', mode !== 'ready');
+  document.getElementById('customQuestions')?.classList.toggle('hidden', mode !== 'custom');
 
   if(mode === 'ready'){
     heroes = 0;
     pages = 0;
-    const hc = document.getElementById('heroCount');
-    const pc = document.getElementById('pageCount');
-    if(hc) hc.textContent = '0';
-    if(pc) pc.textContent = '0';
+    document.getElementById('heroCount').textContent = '0';
+    document.getElementById('pageCount').textContent = '0';
   }
+
   updateTotal();
 }
 
@@ -60,46 +49,36 @@ function selectPlan(name, price, mode='custom', btn){
   setMode(mode);
 
   document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected-plan'));
-  const card = btn ? btn.closest('.plan-card') : null;
-  if(card) card.classList.add('selected-plan');
+  btn?.closest('.plan-card')?.classList.add('selected-plan');
 
-  if(mode === 'ready'){
-    const templates = document.getElementById('templates');
-    if(templates) templates.scrollIntoView({behavior:'smooth', block:'start'});
-  }else{
-    const order = document.getElementById('order');
-    if(order) order.scrollIntoView({behavior:'smooth', block:'start'});
-  }
+  const target = mode === 'ready'
+    ? document.getElementById('templates')
+    : document.getElementById('order');
+
+  target?.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 function selectTemplate(name, el){
   const selected = document.getElementById('selectedTemplate');
-  const line = document.getElementById('selectedTemplateLine');
-
   if(selected) selected.textContent = name;
-  if(line) line.classList.remove('hidden');
 
   document.querySelectorAll('.template-card').forEach(card => card.classList.remove('selected'));
-  const card = el ? el.closest('.template-card') : null;
-  if(card) card.classList.add('selected');
+  el?.closest('.template-card')?.classList.add('selected');
 
-  const order = document.getElementById('order');
-  if(order) order.scrollIntoView({behavior:'smooth', block:'start'});
+  document.getElementById('order')?.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 function changeHero(delta){
   if(currentMode === 'ready') return;
   heroes = Math.max(0, heroes + delta);
-  const el = document.getElementById('heroCount');
-  if(el) el.textContent = heroes;
+  document.getElementById('heroCount').textContent = heroes;
   updateTotal();
 }
 
 function changePage(delta){
   if(currentMode === 'ready') return;
   pages = Math.max(0, pages + delta);
-  const el = document.getElementById('pageCount');
-  if(el) el.textContent = pages;
+  document.getElementById('pageCount').textContent = pages;
   updateTotal();
 }
 
@@ -121,19 +100,69 @@ function handleFiles(event){
   }
 }
 
-function fakeSubmit(){
-  if(currentMode === 'ready'){
-    const selected = document.getElementById('selectedTemplate');
-    if(selected && selected.textContent.trim() === 'չի ընտրված'){
-      alert('Խնդրում ենք ընտրել պատրաստի հեքիաթի տարբերակը։');
-      return;
-    }
+async function fakeSubmit(){
+  const selectedStory = document.getElementById('selectedTemplate')?.textContent || '';
+
+  if(currentMode === 'ready' && (!selectedStory || selectedStory === 'Դեռ ընտրված չէ')){
+    alert('Խնդրում ենք ընտրել պատրաստի հեքիաթի տարբերակը։');
+    return;
   }
+
   if(currentMode === 'custom' && uploadedCount < 10){
     alert('Խնդրում ենք կցել նվազագույնը 10 նկար։');
     return;
   }
-  alert('Պատվերի demo ձևը պատրաստ է։ Հաջորդ փուլում սա կկապենք իրական backend-ին։');
+
+  const childName = document.querySelector('input[placeholder="օր․ Էվա"]')?.value || '';
+  const phone = document.querySelector('input[placeholder="+374"]')?.value || '';
+  const age = document.querySelector('input[placeholder="օր․ 5"]')?.value || '';
+  const gender = document.querySelector('.grid-2 select')?.value || '';
+  const notes = document.querySelector('textarea')?.value || '';
+
+  if(!phone){
+    alert('Խնդրում ենք լրացնել հեռախոսահամարը։');
+    return;
+  }
+
+  const total =
+    planPrice + heroes * 2000 + pages * 2500;
+
+  const btn = document.querySelector('.submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Ուղարկվում է...';
+
+  const { error } = await supabaseClient
+    .from('orders')
+    .insert([{
+      product: planName,
+      status: 'Նոր պատվեր',
+      customer_name: childName || 'Չնշված',
+      phone: phone,
+      price: total,
+      details: {
+        type: currentMode,
+        selected_story: selectedStory,
+        child_name: childName,
+        age: age,
+        gender: gender,
+        uploaded_count: uploadedCount,
+        extra_heroes: heroes,
+        extra_pages: pages,
+        notes: notes
+      }
+    }]);
+
+  if(error){
+    alert('Սխալ եղավ։ ' + error.message);
+    btn.disabled = false;
+    btn.textContent = 'Ուղարկել պատվերը';
+    return;
+  }
+
+  alert('Պատվերը հաջողությամբ գրանցվեց ✅');
+
+  btn.disabled = false;
+  btn.textContent = 'Ուղարկել պատվերը';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
