@@ -1,58 +1,101 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Իմ պատմությունների սրահ | Aramazd Art</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
 <header class="site-header">
-  <a class="brand" href="index.html"><img src="assets/logo/aramazd-logo.png" alt="Aramazd Art"></a>
-  
-<nav class="nav">
-  <a href="index.html">Գլխավոր</a>
-  <a href="products.html">Ապրանքներ</a>
-  <a href="how-it-works.html">Ինչպես է աշխատում</a>
-  <a href="gallery.html">Պատկերասրահ</a>
-  <a href="about.html">Մեր մասին</a>
-  <a href="contact.html">Կապ</a>
-</nav>
+  <a class="brand" href="index.html">
+    <img src="assets/logo/aramazd-logo.png" alt="Aramazd Art">
+  </a>
+
+  <nav class="nav">
+    <a href="index.html">Գլխավոր</a>
+    <a href="products.html">Ապրանքներ</a>
+    <a href="how-it-works.html">Ինչպես է աշխատում</a>
+    <a href="gallery.html">Պատկերասրահ</a>
+    <a href="about.html">Մեր մասին</a>
+    <a href="contact.html">Կապ</a>
+  </nav>
 
   <div class="actions">
     <button class="lang" id="langBtn">HY</button>
     <a class="login" href="login.html">Մուտք</a>
     <a class="btn small" href="register.html">Գրանցվել</a>
   </div>
+
   <button class="menu" id="menuBtn">☰</button>
 </header>
 
-
 <main class="dash">
-<aside class="dash-side"><img src="assets/logo/aramazd-logo-white.png"><a class="active">Ընթացիկ պատվեր</a><a>Իմ պատվերները</a><a>Հին պատվերներ</a><a>Ֆայլեր</a><a>Հաղորդագրություններ</a><a>Կարգավորումներ</a></aside>
-<section class="dash-main"><h1>Իմ պատմությունների սրահ</h1><p>Բարի գալուստ ձեր անձնական սրահ։ Այստեղ կարող եք հետևել պատվերների ընթացքին և տեսնել ձեր ֆայլերը։</p>
-<div class="order-card"><h2>Հեքիաթային գիրք Էվայի համար</h2><div class="order-steps"><span class="done">Հարցաշար</span><span class="done">Ստուգում</span><span class="active">Պատմություն</span><span>Նկարազարդում</span><span>Տպագրություն</span><span>Առաքում</span></div></div>
-<div class="file-row"><div>PDF<br><small>Նախնական տարբերակ</small></div><div>NFC<br><small>Տեսանյութի հղում</small></div><div>Նկարներ<br><small>Վերբեռնված ֆայլեր</small></div></div>
-</section></main>
 
+  <aside class="dash-side">
+    <img src="assets/logo/aramazd-logo-white.png">
+    <a class="active">Ընթացիկ պատվեր</a>
+    <a>Իմ պատվերները</a>
+    <a>Հին պատվերներ</a>
+    <a>Ֆայլեր</a>
+    <a>Հաղորդագրություններ</a>
+    <a>Կարգավորումներ</a>
+  </aside>
+
+  <section class="dash-main">
+    <h1>Իմ պատմությունների սրահ</h1>
+    <p>Այստեղ երևում են Supabase-ում գրանցված իրական պատվերները։</p>
+
+    <div id="ordersList">
+      <p>Բեռնվում է...</p>
+    </div>
+
+    <div class="file-row">
+      <div>PDF<br><small>Նախնական տարբերակ</small></div>
+      <div>NFC<br><small>Տեսանյութի հղում</small></div>
+      <div>Նկարներ<br><small>Վերբեռնված ֆայլեր</small></div>
+    </div>
+  </section>
+
+</main>
 
 <footer class="site-footer">
   <div class="footer-inner">
+
     <div class="footer-brand">
       <img src="assets/logo/aramazd-logo-white.png" alt="Aramazd Art">
       <p>Վերածում ենք ձեր ամենաթանկ պահերը գեղեցիկ պատմությունների, գրքերի և հիշողությունների։</p>
-      <div class="socials"><a href="#">◎</a><a href="#">f</a><a href="#">♪</a></div>
+      <div class="socials">
+        <a href="#">◎</a>
+        <a href="#">f</a>
+        <a href="#">♪</a>
+      </div>
     </div>
+
     <div class="footer-col">
       <h3>Արագ հղումներ</h3>
-      <a href="index.html">Գլխավոր</a><a href="products.html">Ապրանքներ</a><a href="new-order.html">Պատվիրել</a><a href="about.html">Մեր մասին</a>
+      <a href="index.html">Գլխավոր</a>
+      <a href="products.html">Ապրանքներ</a>
+      <a href="new-order.html">Պատվիրել</a>
+      <a href="about.html">Մեր մասին</a>
     </div>
+
     <div class="footer-col">
       <h3>Աջակցություն</h3>
-      <a href="register.html">Գրանցում</a><a href="dashboard.html">Իմ սրահը</a><a href="contact.html">Օգնություն</a><a href="contact.html">Հետադարձ կապ</a>
+      <a href="register.html">Գրանցում</a>
+      <a href="dashboard.html">Իմ սրահը</a>
+      <a href="contact.html">Օգնություն</a>
+      <a href="contact.html">Հետադարձ կապ</a>
     </div>
-    <div class="footer-watermark"><img src="assets/logo/aramazd-logo-white.png" alt=""></div>
+
+    <div class="footer-watermark">
+      <img src="assets/logo/aramazd-logo-white.png" alt="">
+    </div>
+
   </div>
+
   <div class="footer-bottom">
     <span>© 2026 ARAMAZD ART</span>
     <span>Պատմություններ, որոնք դառնում են հիշողություններ</span>
@@ -60,6 +103,89 @@
   </div>
 </footer>
 
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = 'https://xxbvitnrnloscrrmlaui.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4_qeOASRgzI1mEpEioICow_hHSB5HPi';
+
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function formatPrice(value){
+  if(!value) return 'Չնշված';
+  return Number(value).toLocaleString('hy-AM') + ' դր․';
+}
+
+function getSteps(status){
+  const steps = [
+    'Տվյալներ ստացվել են',
+    'Հեքիաթը գրվում է',
+    'Նկարազարդումներ',
+    'Տպագրություն',
+    'Պատրաստ է',
+    'Առաքում'
+  ];
+
+  let activeIndex = 0;
+
+  if(status.includes('գրվում')) activeIndex = 1;
+  if(status.includes('Նկար')) activeIndex = 2;
+  if(status.includes('Տպ')) activeIndex = 3;
+  if(status.includes('Պատրաստ')) activeIndex = 4;
+  if(status.includes('Առաք')) activeIndex = 5;
+
+  return steps.map((step, index) => {
+    let cls = '';
+    if(index < activeIndex) cls = 'done';
+    if(index === activeIndex) cls = 'active';
+    return `<span class="${cls}">${step}</span>`;
+  }).join('');
+}
+
+async function loadOrders(){
+  const box = document.getElementById('ordersList');
+
+  const { data, error } = await client
+    .from('orders')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if(error){
+    box.innerHTML = `<p>Սխալ եղավ․ ${error.message}</p>`;
+    return;
+  }
+
+  if(!data || data.length === 0){
+    box.innerHTML = '<p>Դեռ պատվերներ չկան։</p>';
+    return;
+  }
+
+  box.innerHTML = data.map(order => {
+    const childName = order.details?.child_name || order.customer_name || 'Չնշված';
+    const status = order.status || 'Նոր պատվեր';
+
+    return `
+      <div class="order-card">
+        <h2>${order.product || 'Պատվեր'} ${childName ? '՝ ' + childName : ''}</h2>
+
+        <p>
+          <b>Հեռախոս․</b> ${order.phone || 'Չնշված'}<br>
+          <b>Գին․</b> ${formatPrice(order.price)}<br>
+          <b>Կարգավիճակ․</b> ${status}
+        </p>
+
+        <div class="order-steps">
+          ${getSteps(status)}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+document.addEventListener('DOMContentLoaded', loadOrders);
+</script>
+
 <script src="js/main.js"></script>
+
 </body>
 </html>
