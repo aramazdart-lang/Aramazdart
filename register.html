@@ -1,58 +1,71 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Գրանցում | Aramazd Art</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Գրանցվել | Aramazd Art</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<header class="site-header">
-  <a class="brand" href="index.html"><img src="assets/logo/aramazd-logo.png" alt="Aramazd Art"></a>
-  
-<nav class="nav">
-  <a href="index.html">Գլխավոր</a>
-  <a href="products.html">Ապրանքներ</a>
-  <a href="how-it-works.html">Ինչպես է աշխատում</a>
-  <a href="gallery.html">Պատկերասրահ</a>
-  <a href="about.html">Մեր մասին</a>
-  <a href="contact.html">Կապ</a>
-</nav>
+<main class="auth-page">
+  <div class="auth-card">
+    <h1>Գրանցվել</h1>
 
-  <div class="actions">
-    <button class="lang" id="langBtn">HY</button>
-    <a class="login" href="login.html">Մուտք</a>
-    <a class="btn small" href="register.html">Գրանցվել</a>
+    <input id="fullName" type="text" placeholder="Անուն Ազգանուն">
+    <input id="phone" type="text" placeholder="Հեռախոսահամար">
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Գաղտնաբառ">
+
+    <button class="btn" onclick="registerUser()">Գրանցվել</button>
+
+    <p>Արդեն ունե՞ք հաշիվ <a href="login.html">Մուտք գործել</a></p>
   </div>
-  <button class="menu" id="menuBtn">☰</button>
-</header>
+</main>
 
-<main class="auth-page"><div class="auth-card"><img src="assets/logo/aramazd-logo.png"><h1>Գրանցում</h1><input placeholder="Էլ․ հասցե"><input placeholder="Գաղտնաբառ" type="password"><button class="btn">Ստեղծել հաշիվ</button><a href="login.html">Արդեն ունե՞ք հաշիվ։ Մուտք</a></div></main>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <img src="assets/logo/aramazd-logo-white.png" alt="Aramazd Art">
-      <p>Վերածում ենք ձեր ամենաթանկ պահերը գեղեցիկ պատմությունների, գրքերի և հիշողությունների։</p>
-      <div class="socials"><a href="#">◎</a><a href="#">f</a><a href="#">♪</a></div>
-    </div>
-    <div class="footer-col">
-      <h3>Արագ հղումներ</h3>
-      <a href="index.html">Գլխավոր</a><a href="products.html">Ապրանքներ</a><a href="new-order.html">Պատվիրել</a><a href="about.html">Մեր մասին</a>
-    </div>
-    <div class="footer-col">
-      <h3>Աջակցություն</h3>
-      <a href="register.html">Գրանցում</a><a href="dashboard.html">Իմ սրահը</a><a href="contact.html">Օգնություն</a><a href="contact.html">Հետադարձ կապ</a>
-    </div>
-    <div class="footer-watermark"><img src="assets/logo/aramazd-logo-white.png" alt=""></div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 ARAMAZD ART</span>
-    <span>Պատմություններ, որոնք դառնում են հիշողություններ</span>
-    <span>Ստեղծված Հայաստանում</span>
-  </div>
-</footer>
+<script>
+const SUPABASE_URL = 'https://xxbvitnrnloscrrmlaui.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4_qeOASRgzI1mEpEioICow_hHSB5HPi';
 
-<script src="js/main.js"></script>
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function registerUser(){
+  const fullName = document.getElementById('fullName').value;
+  const phone = document.getElementById('phone').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  if(!fullName || !phone || !email || !password){
+    alert('Լրացրեք բոլոր դաշտերը');
+    return;
+  }
+
+  const { data, error } = await client.auth.signUp({
+    email,
+    password
+  });
+
+  if(error){
+    alert('Սխալ։ ' + error.message);
+    return;
+  }
+
+  const userId = data.user?.id;
+
+  if(userId){
+    await client.from('profiles').insert([{
+      id: userId,
+      full_name: fullName,
+      phone: phone
+    }]);
+  }
+
+  alert('Գրանցումը հաջողվեց ✅');
+  window.location.href = 'login.html';
+}
+</script>
+
 </body>
 </html>
